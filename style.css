@@ -1,0 +1,349 @@
+/* الألوان الأساسية لنادي إدراك */
+:root {
+    --primary-dark: #3A454E; /* لون النصوص الرئيسية */
+    --accent-orange: #FDB04C; /* لون الأزرار والتفاعل */
+    --light-gray-bg: #DFDCDA; /* لون الخلفية العامة */
+    --white: #FFFFFF; /* لون خلفية الحاوية */
+}
+
+/* تنسيقات عامة ومناسبة للغة العربية */
+body {
+    font-family: 'Arial', sans-serif;
+    direction: rtl;
+    text-align: right;
+    background-color: var(--light-gray-bg);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#game-container {
+    background-color: var(--white);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    max-width: 600px;
+    width: 90%;
+    color: var(--primary-dark);
+}
+
+/* تنسيق الشعار */
+#club-logo {
+    max-width: 250px;
+    margin-bottom: 20px;
+}
+#club-logo-small {
+    max-width: 150px;
+    margin-bottom: 10px;
+}
+
+/* تنسيق النصوص */
+h1, h2 {
+    color: var(--primary-dark);
+}
+
+/* تنسيق الشاشات للانتقال */
+.screen {
+    display: none;
+    text-align: center;
+}
+.screen.active {
+    display: block;
+}
+
+/* تنسيق الأزرار المشتركة */
+button {
+    border: none;
+    padding: 12px 25px;
+    margin-top: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+/* الأزرار الأساسية في اللعبة الفردية */
+button:not(.main-button) {
+    background-color: var(--accent-orange);
+    color: var(--primary-dark);
+}
+
+button:not(.main-button):hover {
+    background-color: #fca539; 
+}
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* تنسيق أزرار شاشة البداية */
+.main-button {
+    display: block;
+    width: 80%;
+    margin: 15px auto;
+    background-color: var(--primary-dark);
+    color: var(--white);
+}
+
+.main-button.accent-color {
+    background-color: var(--accent-orange);
+    color: var(--primary-dark);
+}
+
+.main-button:hover {
+    opacity: 0.9;
+}
+
+/* تنسيق المدخلات */
+input[type="text"], input[type="number"] {
+    width: 80%;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-align: right;
+    font-size: 1em;
+}
+
+/* تنسيق قائمة اللاعبين */
+#player-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px auto;
+    width: 80%;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: right;
+}
+
+#player-list li {
+    padding: 8px 15px;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    color: var(--primary-dark);
+}
+
+#player-list li:last-child {
+    border-bottom: none;
+}
+
+
+/* تنسيق مقياس التوتر */
+#stress-level {
+    width: 80%;
+    margin-top: 20px;
+}
+#stress-value-display {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* تنسيق عداد الوقت في مقياس التوتر */
+#timer-display {
+    font-size: 2em;
+    font-weight: bold;
+    color: #F44336; 
+    margin: 10px 0;
+}
+
+/* تنسيق دائرة التنفس */
+#breathing-guide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 0;
+}
+
+#circle {
+    width: 150px;
+    height: 150px;
+    background-color: var(--accent-orange); 
+    border-radius: 50%;
+    transition: transform 4s ease-in-out; 
+    box-shadow: 0 0 25px rgba(253, 176, 76, 0.8); 
+}
+
+/* الحركة الرئيسية للتنفس */
+@keyframes breathe {
+    0%, 100% { transform: scale(1); } 
+    25% { transform: scale(1.4); } 
+    60% { transform: scale(1.4); } 
+}
+
+.breathing {
+    animation: breathe 19s infinite; 
+}
+
+.hidden {
+    display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* ** تنسيق التعليمات والعداد الجديد (مرحلة التنفس) ** */
+/* ------------------------------------------------------------------ */
+
+#instructions {
+    margin-top: 20px;
+    font-size: 1.5em; /* زيادة حجم نص التعليمات */
+    font-weight: bold;
+    min-height: 40px; /* لضمان عدم اهتزاز الصفحة عند تغيير النص */
+}
+
+/* تمييز رقم العداد داخل التعليمات ليكون ضخماً */
+#countdown-num {
+    color: var(--primary-dark); 
+    font-weight: 900;
+    font-size: 1.8em; /* جعل العداد أكبر من النص المحيط به */
+    display: block; /* لضمان أن يأخذ العداد سطراً واضحاً وبارزاً */
+}
+/* ------------------------------------------------------------------ */
+
+
+/* تنسيق لعبة إلغاء التشويش (الأفكار) */
+#drag-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+    min-height: 100px;
+}
+
+/* نمط موحد لجميع الأفكار */
+.idea {
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: grab;
+    transition: transform 0.4s, opacity 0.4s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #F7F7F7; 
+    border: 1px solid #DFDCDA; 
+    color: var(--primary-dark); 
+}
+
+#trash-can {
+    margin-top: 30px;
+    padding: 20px;
+    border: 2px dashed var(--primary-dark);
+    border-radius: 10px;
+    background-color: var(--light-gray-bg);
+    text-align: center;
+    font-weight: bold;
+    color: var(--primary-dark);
+    opacity: 0.6;
+    font-size: 1.5em;
+}
+
+#trash-can.hovered {
+    opacity: 1;
+    background-color: #ffd7b0; 
+}
+
+/* تنسيق لعبة تنظيم الأهداف (قائمة الترتيب) */
+#sortable-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 450px;
+}
+
+#sortable-list li {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: move;
+    font-size: 1em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.feedback {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* تنسيق شاشة الفعاليات الجديدة */
+#action-content ul {
+    list-style: none;
+    padding: 0;
+    text-align: right;
+    width: 90%;
+    margin: 20px auto;
+}
+#action-content ul li {
+    background-color: #f0f4f8; 
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-size: 0.95em;
+    border-right: 5px solid;
+}
+#action-content ul li:nth-child(1) { border-right-color: #3A454E; } 
+#action-content ul li:nth-child(2) { border-right-color: #FDB04C; } 
+#action-content ul li:nth-child(3) { border-right-color: #4CAF50; } 
+
+
+/* تنسيق المسابقة (Quiz) */
+.option-button {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 15px;
+    background-color: #f0f4f8; 
+    color: var(--primary-dark);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.option-button:hover {
+    background-color: #e5e9ec;
+}
+
+.option-button.correct {
+    background-color: #d4edda;
+    border-color: #4CAF50;
+    font-weight: bold;
+}
+
+.option-button.incorrect {
+    background-color: #f8d7da;
+    border-color: #F44336;
+    font-weight: bold;
+}
+
+/* تنسيق لوحة الشرف */
+#leaderboard-table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+#leaderboard-table th, #leaderboard-table td {
+    padding: 12px 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+#leaderboard-table th {
+    background-color: var(--primary-dark);
+    color: var(--white);
+    font-weight: bold;
+}
+
+/* تمييز المراكز الأولى */
+#leaderboard-body tr:nth-child(1) { background-color: #ffeb3b; } /* ذهبي */
+#leaderboard-body tr:nth-child(2) { background-color: #bdbdbd; } /* فضي */
+#leaderboard-body tr:nth-child(3) { background-color: #ffab91; } /* برونزي */

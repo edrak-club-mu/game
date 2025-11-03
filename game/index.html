@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منطقة الأمان - نادي إدراك</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+</head>
+<body>
+    <div id="game-container">
+        
+        <div id="start-screen" class="screen active">
+            <img src="logo.png" alt="شعار نادي إدراك" id="club-logo">
+            <h1>مفتاح الهدوء: مبادرة نادي إدراك</h1>
+            <p>أهلاً بك في مسارك لإدارة توتر الجامعة.</p>
+            <button id="start-solo-game" class="main-button">ابدأ رحلة الهدوء الفردية (4 مراحل)</button>
+            <button id="start-competition" class="main-button accent-color">انطلق لتحدي إدراك الفكري (مسابقة تنافسية)</button>
+        </div>
+        
+        <div id="stress-scale-screen" class="screen">
+            <h2>المرحلة 1: قياس التوتر الذاتي</h2>
+            <p>ما هو مستوى توترك الحالي من 1 (هادئ) إلى 10 (مرتفع جداً)؟</p>
+            
+            <div id="timer-display">10</div>
+            
+            <input type="range" id="stress-level" min="1" max="10" value="5">
+            <div id="stress-value-display">5</div>
+            
+            <button id="next-to-apple-watch-input">أدخل مستوى التوتر من ساعة Apple</button>
+        </div>
+
+        <div id="apple-watch-screen" class="screen">
+            <h2>المرحلة 2: إدخال قراءة الساعة ⌚</h2>
+            <p>الرجاء قراءة مستوى التوتر (أو الضغط/الإجهاد) الذي أظهرته لك ساعتك الذكية (Apple Watch, Fitbit, Samsung Health... إلخ).</p>
+            
+            <input type="number" id="watch-stress-input" min="1" max="10" placeholder="أدخل الرقم من 1 إلى 10">
+            <p id="watch-input-feedback" class="feedback"></p>
+
+            <button id="determine-action" disabled>حدد الفعالية المناسبة</button>
+        </div>
+
+        <div id="action-screen" class="screen">
+            <h2 id="action-title"></h2>
+            <div id="action-content">
+                </div>
+            <button id="next-to-breathing">انتقل إلى تمرين التنفس</button>
+        </div>
+
+        <div id="breathing-screen" class="screen">
+            <h2>المرحلة 4: تمرين التنفس (4-7-8)</h2>
+            <p>لنمارس تقنية بسيطة: استنشق (4 ثوان)، احبس (7 ثوان)، أزفر (8 ثوان).</p>
+            
+            <div id="breathing-guide">
+                <div id="circle"></div>
+                <div id="instructions">اضغط للبدء</div>
+            </div>
+            
+            <button id="start-breathing">ابدأ التمرين</button>
+            <button id="finish-game" class="hidden">انهاء</button>
+        </div>
+
+        <div id="filter-screen" class="screen">
+            <h2>المرحلة 5: إلغاء التشويش الفكري</h2>
+            <p>لديك مجموعة من الأفكار. **اسحب الأفكار السلبية فقط** (التي تسبب التوتر) وأفلتها في صندوق المهملات. (اقرأ جيداً!)</p>
+            
+            <div id="drag-container">
+                <div class="idea negative" draggable="true" id="n1">لن أنجح في الاختبار</div>
+                <div class="idea positive" draggable="true" id="p1">لدي وقت لأدرس</div>
+                <div class="idea negative" draggable="true" id="n2">الكل أفضل مني</div>
+                <div class="idea positive" draggable="true" id="p2">أستطيع طلب المساعدة</div>
+                <div class="idea negative" draggable="true" id="n3">الوقت متأخر جداً</div>
+                <div class="idea negative" draggable="true" id="n4">أنا دائماً أفشل في التنظيم</div>
+                <div class="idea positive" draggable="true" id="p3">سأبدأ بخطوة صغيرة اليوم</div>
+                <div class="idea negative" draggable="true" id="n5">يجب أن أكون مثالياً في كل شيء</div>
+                <div class="idea positive" draggable="true" id="p4">الخطأ جزء من التعلم</div>
+            </div>
+
+            <div id="trash-can">
+                🗑️
+                صندوق التخلص من التوتر
+            </div>
+            
+            <button id="next-to-planning" disabled>انتقل للمرحلة التالية</button>
+        </div>
+
+        <div id="planning-screen" class="screen">
+            <h2>المرحلة 6: تنظيم الأولويات</h2>
+            <p>قم بترتيب خطواتك لإنجاز مهمتين: **مذاكرة مادة صعبة** و **تحضير وجبة الغداء**.</p>
+            
+            <ul id="sortable-list">
+                <li data-order="2">البحث عن ملخصات للمادة الصعبة.</li>
+                <li data-order="4">بدء تحضير الغداء.</li>
+                <li data-order="1">تحديد الأولويات (الأصعب أولاً).</li>
+                <li data-order="3">الاستراحة بعد نصف ساعة مذاكرة.</li>
+            </ul>
+            
+            <button id="check-planning">تحقق من الترتيب</button>
+            <p id="planning-feedback" class="feedback"></p>
+
+            <button id="next-to-result" class="hidden">انهاء الأنشطة</button>
+        </div>
+
+        <div id="result-screen" class="screen">
+            <img src="logo.png" alt="شعار نادي إدراك" id="club-logo-small">
+            <h2>تهانينا! لقد عدت إلى منطقة الأمان.</h2>
+            <p id="final-message">لقد نجحت في إدارة لحظة التوتر. تذكر أن إدارة الأفكار وتحديد الأولويات هما مفتاح التميز الفكري والمهاري.</p>
+            <div id="final-advice">
+                <h3>نصائح من إدراك:</h3>
+                <ul>
+                    <li>اطلب المساعدة من مركز الإرشاد الطلابي في الجامعة.</li>
+                    <li>خصص 15 دقيقة يومياً للابتعاد عن الشاشة.</li>
+                </ul>
+            </div>
+            <button id="restart-game">إنهاء والعودة للبداية</button> 
+        </div>
+
+        <div id="registration-screen" class="screen">
+            <h2>تحدي إدراك الفكري - تسجيل اللاعبين</h2>
+            <p>أدخل أسماء المتنافسين (2 كحد أدنى) ليأخذوا دورهم في الإجابة على نفس الأسئلة.</p>
+            
+            <input type="text" id="new-player-name" placeholder="أدخل اسم المتنافس">
+            <button id="add-player-button">إضافة لاعب</button>
+
+            <h3>قائمة اللاعبين:</h3>
+            <ul id="player-list">
+                </ul>
+
+            <button id="start-quiz-button" disabled>ابدأ التحدي (يجب أن يكون لديك لاعبان على الأقل)</button>
+        </div>
+
+        <div id="quiz-screen" class="screen">
+            <h2>اللاعب الحالي: <span id="current-player-display"></span></h2>
+            <h3>سؤال رقم <span id="current-question-number">1</span></h3>
+            <div id="question-text">نص السؤال سيظهر هنا...</div>
+            
+            <div id="options-container">
+                </div>
+            
+            <p id="quiz-feedback" class="feedback"></p>
+            <button id="next-question" class="hidden">السؤال التالي</button>
+        </div>
+
+        <div id="leaderboard-screen" class="screen">
+            <h2>🏆 لوحة شرف تحدي إدراك 🏆</h2>
+            <p>تهانينا! أعلى درجة في هذه الجولة: <span id="final-score">0</span> نقطة.</p>
+            
+            <table id="leaderboard-table">
+                <thead>
+                    <tr><th>المركز</th><th>الاسم</th><th>النقاط</th></tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    </tbody>
+            </table>
+            
+            <button id="back-to-menu-from-leaderboard" class="accent-color">العودة للقائمة الرئيسية</button>
+        </div>
+
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
