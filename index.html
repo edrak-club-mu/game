@@ -18,23 +18,11 @@
             <button id="start-competition" class="main-button accent-color">انطلق لتحدي إدراك الفكري (مسابقة تنافسية)</button>
         </div>
         
-        <div id="stress-scale-screen" class="screen">
-            <h2>المرحلة 1: قياس التوتر الذاتي</h2>
-            <p>ما هو مستوى توترك الحالي من 1 (هادئ) إلى 10 (مرتفع جداً)؟</p>
-            
-            <div id="timer-display">10</div>
-            
-            <input type="range" id="stress-level" min="1" max="10" value="5">
-            <div id="stress-value-display">5</div>
-            
-            <button id="next-to-apple-watch-input">أدخل مستوى التوتر من ساعة Apple</button>
-        </div>
-
         <div id="apple-watch-screen" class="screen">
-            <h2>المرحلة 2: إدخال قراءة الساعة ⌚</h2>
-            <p>الرجاء قراءة مستوى التوتر (أو الضغط/الإجهاد) الذي أظهرته لك ساعتك الذكية (Apple Watch, Fitbit, Samsung Health... إلخ).</p>
+            <h2>المرحلة 1: قياس التوتر بقراءة الساعة ⌚</h2>
+            <p>الرجاء إدخال مستوى التوتر أو **معدل ضربات القلب** الذي أظهرته لك ساعتك (يجب أن يكون **60 أو أعلى**).</p>
             
-            <input type="number" id="watch-stress-input" min="1" max="10" placeholder="أدخل الرقم من 1 إلى 10">
+            <input type="number" id="watch-stress-input" min="60" placeholder="أدخل القراءة (مثلاً 85)">
             <p id="watch-input-feedback" class="feedback"></p>
 
             <button id="determine-action" disabled>حدد الفعالية المناسبة</button>
@@ -48,7 +36,7 @@
         </div>
 
         <div id="breathing-screen" class="screen">
-            <h2>المرحلة 4: تمرين التنفس (4-7-8)</h2>
+            <h2>المرحلة 2: تمرين التنفس (4-7-8)</h2>
             <p>لنمارس تقنية بسيطة: استنشق (4 ثوان)، احبس (7 ثوان)، أزفر (8 ثوان).</p>
             
             <div id="breathing-guide">
@@ -61,7 +49,7 @@
         </div>
 
         <div id="filter-screen" class="screen">
-            <h2>المرحلة 5: إلغاء التشويش الفكري</h2>
+            <h2>المرحلة 3: إلغاء التشويش الفكري</h2>
             <p>لديك مجموعة من الأفكار. **اسحب الأفكار السلبية فقط** (التي تسبب التوتر) وأفلتها في صندوق المهملات. (اقرأ جيداً!)</p>
             
             <div id="drag-container">
@@ -85,7 +73,7 @@
         </div>
 
         <div id="planning-screen" class="screen">
-            <h2>المرحلة 6: تنظيم الأولويات</h2>
+            <h2>المرحلة 4: تنظيم الأولويات</h2>
             <p>قم بترتيب خطواتك لإنجاز مهمتين: **مذاكرة مادة صعبة** و **تحضير وجبة الغداء**.</p>
             
             <ul id="sortable-list">

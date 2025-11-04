@@ -31,7 +31,7 @@ let currentQuestionIndex = 0;
 let registeredPlayers = []; 
 let currentPlayerIndex = 0;
 
-// 🛑🛑🛑 تعديل: مسح لوحة المتصدرين عند بدء تشغيل اللعبة
+// 🛑 مسح لوحة المتصدرين عند بدء تشغيل اللعبة
 let leaderboard = []; 
 localStorage.removeItem('edrakLeaderboard');
 
@@ -199,70 +199,9 @@ document.getElementById('back-to-menu-from-leaderboard').addEventListener('click
 // ------------------------------------------------------------------
 // ** منطق اللعبة الفردية (إدارة التوتر) ** // ------------------------------------------------------------------
 
-// متغيرات مقياس التوتر
-let stressTimer;
-const initialTime = 10; 
-let timeRemaining = initialTime;
-const timerDisplay = document.getElementById('timer-display');
-const nextToAppleWatchButton = document.getElementById('next-to-apple-watch-input'); 
-
-function startStressTimer() {
-    timeRemaining = initialTime;
-    timerDisplay.textContent = timeRemaining;
-    nextToAppleWatchButton.disabled = false;
-    timerDisplay.style.color = '#F44336'; 
-
-    if (stressTimer) clearInterval(stressTimer);
-
-    stressTimer = setInterval(() => {
-        timeRemaining--;
-        timerDisplay.textContent = timeRemaining;
-
-        if (timeRemaining <= 0) {
-            clearInterval(stressTimer);
-            goToAppleWatchScreen(); 
-        }
-    }, 1000);
-}
-
-function stopStressTimer() {
-    if (stressTimer) {
-        clearInterval(stressTimer);
-        stressTimer = null;
-    }
-}
-
-function goToAppleWatchScreen() {
-    stopStressTimer(); 
-    showScreen('apple-watch-screen');
-}
-
+// 1. الانتقال مباشرة إلى شاشة إدخال قراءة الساعة
 document.getElementById('start-solo-game').addEventListener('click', () => {
-    showScreen('stress-scale-screen');
-    startStressTimer(); 
-});
-
-const stressInput = document.getElementById('stress-level');
-const stressDisplay = document.getElementById('stress-value-display');
-
-stressInput.addEventListener('input', (e) => {
-    const level = parseInt(e.target.value);
-    stressDisplay.textContent = level;
-    
-    let color;
-    if (level <= 3) {
-        color = '#3A454E'; 
-    } else if (level <= 7) {
-        color = '#7C868D'; 
-    } else {
-        color = '#FDB04C'; 
-    }
-    stressDisplay.style.color = color;
-});
-
-// 1. الانتقال من شاشة المقياس إلى شاشة الساعة
-document.getElementById('next-to-apple-watch-input').addEventListener('click', () => {
-    goToAppleWatchScreen();
+    showScreen('apple-watch-screen');
 });
 
 // 2. منطق شاشة إدخال قراءة الساعة
@@ -271,37 +210,66 @@ const determineActionButton = document.getElementById('determine-action');
 const watchInputFeedback = document.getElementById('watch-input-feedback');
 
 watchStressInput.addEventListener('input', () => {
-    const level = parseInt(watchStressInput.value);
-    if (level >= 1 && level <= 10) {
+    const reading = parseInt(watchStressInput.value);
+    // التحقق من أن القراءة 60 أو أعلى
+    if (reading >= 60) { 
         determineActionButton.disabled = false;
         watchInputFeedback.textContent = '';
     } else {
         determineActionButton.disabled = true;
-        watchInputFeedback.textContent = 'الرجاء إدخال رقم بين 1 و 10.';
+        watchInputFeedback.textContent = 'الرجاء إدخال قراءة معقولة (60 أو أعلى).';
         watchInputFeedback.style.color = 'red';
     }
 });
 
 determineActionButton.addEventListener('click', () => {
-    const stressLevel = parseInt(watchStressInput.value);
-    if (stressLevel >= 1 && stressLevel <= 10) {
-        performCustomAction(stressLevel);
+    const reading = parseInt(watchStressInput.value);
+    if (reading >= 60) {
+        performCustomAction(reading); // تمرير القراءة الخام
     }
 });
 
-// 3. 🆕 الدالة التي تحدد الفعالية المخصصة (تم تنظيمها بناءً على طلبك)
-function performCustomAction(level) {
+// 3. الدالة التي تحدد الفعالية المخصصة مع التحويل وعرض القراءة (60+)
+function performCustomAction(reading) {
+    let stressCategory;
+    let stressRange; // هذا هو المقياس الداخلي (1-10) الذي يظهر في رسالة التفسير
+    let stressLevelForAction; 
+    
+    // منطق التحويل من قراءة الساعة (60+) إلى مقياس اللعبة (1-10)
+    if (reading > 100) {
+        stressCategory = 'عالي جداً';
+        stressRange = '10';
+        stressLevelForAction = 10;
+    } else if (reading >= 91) {
+        stressCategory = 'مرتفع جداً';
+        stressRange = '8-9';
+        stressLevelForAction = 9;
+    } else if (reading >= 81) {
+        stressCategory = 'مرتفع';
+        stressRange = '6-7';
+        stressLevelForAction = 7;
+    } else if (reading >= 71) {
+        stressCategory = 'متوسط'; 
+        stressRange = '4-5';
+        stressLevelForAction = 5;
+    } else { // reading >= 60 && reading <= 70
+        stressCategory = 'منخفض'; 
+        stressRange = '1-3';
+        stressLevelForAction = 3;
+    }
+
     const titleElement = document.getElementById('action-title');
     const contentElement = document.getElementById('action-content');
     
     let title;
     let contentHTML;
     
-    if (level >= 8) {
-        // مرتفع جداً (8 - 10): الوعي السلوكي (تهدئة فورية)
+    // استخدام مستوى القراءة لتحديد نوع الفعالية
+    if (stressLevelForAction >= 8) {
+        // مرتفع جداً وعالي جداً (8 - 10): الوعي السلوكي (تهدئة فورية)
         title = "🔴 منطقة الأمان الفوري: الوعي السلوكي";
         contentHTML = `
-            <p style="color: #F44336; font-weight: bold;">مستوى توترك مرتفع جداً (${level}). نحتاج لكسر حلقة التوتر فوراً:</p>
+            <p style="color: #F44336; font-weight: bold;">قراءة ساعتك تشير إلى توتر **${stressCategory}** بمعدل **${reading}** نبضة/توتر. هذا يعادل المستوى **(${stressRange})** على مقياس التوتر الداخلي. نحتاج لكسر حلقة التوتر فوراً:</p>
             <h3>🔑 تمرين: 5 - 4 - 3 - 2 - 1 (حواس)</h3>
             <ul>
                 <li>**5** أشياء تراها في محيطك الآن.</li>
@@ -312,11 +280,11 @@ function performCustomAction(level) {
             </ul>
             <p>💡 هذا التدريب يعيد تركيز دماغك إلى اللحظة الحالية ويقلل من الاستجابة التلقائية للضغط.</p>
         `;
-    } else if (level >= 4) {
-        // متوسط إلى مرتفع (4 - 7): التميز الفكري (تأطير إيجابي)
+    } else if (stressLevelForAction >= 4) {
+        // متوسط ومرتفع (4 - 7): التميز الفكري (تأطير إيجابي)
         title = "🟠 تحدي التركيز الفكري: استغلال الطاقة";
         contentHTML = `
-            <p style="color: #FDB04C; font-weight: bold;">مستوى توترك متوسط (${level}). لنحول القلق إلى محفز:</p>
+            <p style="color: #FDB04C; font-weight: bold;">قراءة ساعتك تشير إلى توتر **${stressCategory}** بمعدل **${reading}** نبضة/توتر. هذا يعادل المستوى **(${stressRange})** على مقياس التوتر الداخلي. لنحول القلق إلى محفز:</p>
             <h3>🔑 تحدي: الفكرة المضادة</h3>
             <ul>
                 <li>**حدد الفكرة السلبية الأبرز:** ما هو أكثر شيء يزعجك الآن؟ (مثل: "لن أنتهي من مذاكرة هذا الفصل").</li>
@@ -329,7 +297,7 @@ function performCustomAction(level) {
         // منخفض (1 - 3): المهارات الحياتية (تخطيط استباقي)
         title = "🟢 نافذة المهارات الحياتية: التخطيط في الهدوء";
         contentHTML = `
-            <p style="color: #4CAF50; font-weight: bold;">مستوى توترك منخفض (${level}). استغل هدوءك لتنمية مهاراتك:</p>
+            <p style="color: #4CAF50; font-weight: bold;">قراءة ساعتك تشير إلى توتر **${stressCategory}** بمعدل **${reading}** نبضة/توتر. هذا يعادل المستوى **(${stressRange})** على مقياس التوتر الداخلي. استغل هدوءك لتنمية مهاراتك:</p>
             <h3>🔑 مهارة: الإعداد المسبق</h3>
             <ul>
                 <li>**الاستعداد الذهني:** اختر أصعب مهمة في جدولك الأسبوعي. لا تبدأ بها، ولكن قم بكتابة أول ثلاثة موارد (كتب/فيديوهات/زملاء) تحتاجها لإنجازها.</li>
@@ -507,14 +475,6 @@ document.getElementById('next-to-result').addEventListener('click', () => {
 
 // 8. إعادة تعيين اللعبة الفردية (Restart)
 function resetGameState() {
-    stopStressTimer(); 
-
-    // مقياس التوتر
-    stressInput.value = 5;
-    stressDisplay.textContent = 5;
-    stressDisplay.style.color = '#7C868D'; 
-    timerDisplay.textContent = initialTime; 
-    
     // شاشة الساعة
     watchStressInput.value = '';
     determineActionButton.disabled = true;
